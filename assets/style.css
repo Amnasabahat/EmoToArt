@@ -1,0 +1,25 @@
+/* Fix the header and tabs to the top */
+.stApp {
+    overflow: auto;
+}
+
+/* Sticky Title Section */
+.fixed-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1000;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+/* Sticky Tabs */
+.block-container > div:nth-child(4) {
+    position: sticky;
+    top: 110px; /* Adjust depending on header height */
+    background-color: white;
+    z-index: 999;
+    border-bottom: 1px solid #ddd;
+    padding-top: 0.5rem;
+}
