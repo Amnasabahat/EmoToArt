@@ -3,7 +3,7 @@ from io import BytesIO
 from agents.orchestrator import MultiAgentOrchestrator
 
 st.set_page_config(
-    page_title="EmotoArt - Multi-Agent Creative Assistant",
+    page_title="EmotoArt - Multi-Agent Assistant",
     page_icon="🎨",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -44,7 +44,7 @@ with st.sidebar:
     generate = st.button("🎨 Generate Art", use_container_width=True)
 
 # Title & Introduction
-st.markdown("<h1 style='text-align: center;'>🎨 EmoToArt </h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>🎨 EmoToArt - Multi Agent Assistant </h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center;'>Where Emotions Become Masterpieces</h3>", unsafe_allow_html=True)
 
 # Tabs layout
@@ -63,7 +63,7 @@ with selected_tab[0]:
         st.markdown("""
         <div style='text-align: center; font-size:17px; padding: 1rem 3rem;'>
         Don't just imagine art—create it with your feelings!!!<br>
-        Turn your <b>mood into stunning AI-generated artwork</b> with just a few clicks! Whether you're feeling <b>joyful</b>, <b>melancholic</b>, or <b>inspired</b>, EmoToArt transforms your emotions.
+        Turn your mood into stunning AI-generated artwork with just a few clicks! Whether you're feeling joyful, melancholic, or inspired,My EmoToArt Multi Agent transforms your emotions.
         </div>
         """, unsafe_allow_html=True)
 
