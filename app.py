@@ -114,7 +114,6 @@ with selected_tab[1]:
 # Feedback Tab
 # --------------------
 with selected_tab[2]:
-    st.markdown("## 🗣️ I'd Love Your Feedback!")
     with st.form("feedback_form"):
         name = st.text_input("Your Name")
         feedback_text = st.text_area("Your Feedback")
