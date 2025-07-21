@@ -21,7 +21,7 @@ EmotoArt uses a modular **Multi-Agent System**, designed with the GenAI AgentOS 
 
 - 🧭 **Planner Agent** — Understands user emotion, style, theme, and intent  
 - 🎨 **Artist Agent** — Converts structured context into prompt-ready creative instructions  
-- 🔍 **Critic Agent** *(optional)* — Allows refinement loop if user wants to regenerate  
+- 🔍 **Critic Agent** — Allows refinement loop if user wants to regenerate  
 - 🧠 **Orchestrator** — Coordinates agents and ensures cohesive generation
 
 > Built to be extendable: agents can be swapped, retrained, or improved independently.
