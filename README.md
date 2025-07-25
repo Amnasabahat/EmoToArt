@@ -46,7 +46,7 @@ EmotoArt uses a modular **Multi-Agent System**, designed with the GenAI AgentOS 
 
 1. **Clone the repository**  
 ```bash
-   git clone https://github.com/your-username/emotoart.git
+   git clone https://github.com/Amnasabahat/emotoart.git
    cd emotoart
 ```
 2. **Create a virtual environment**
