@@ -17,55 +17,64 @@ with open("assets/style.css") as f:
 if 'orchestrator' not in st.session_state:
     st.session_state.orchestrator = MultiAgentOrchestrator()
 
+# --------------------
 # Sidebar - Settings
+# --------------------
 with st.sidebar:
     st.header("🎨 Customize Your Artwork")
 
-    # Palette / Color Tone
+    # Color palette
     color_palette = st.selectbox(
-        "🎨 Color Palette",
-        ["Warm", "Cool", "Pastel", "Vibrant", "Monochrome"],
-        help="Choose the overall color tone for your art"
+        "🎨 Choose a Color Palette",
+        ["Warm", "Cool", "Monochrome", "Pastel", "Vibrant"],
+        help="Defines the overall color tone"
     )
 
-    # Art Style
+    # Art style
     art_style = st.selectbox(
-        "🖌️ Art Style",
-        ["Watercolor", "Digital Painting", "Anime", "Fantasy", "Abstract", "Impressionism", "Surrealism", "Minimalism"],
-        help="Pick the style of the artwork"
+        "🖌️ Preferred Art Style",
+        [
+            "Watercolor", "Anime", "Surrealism", "Digital Painting", "Abstract",
+            "Impressionism", "Cubism", "Pop Art", "Expressionism",
+            "Minimalism", "Fantasy Art", "Concept Art"
+        ],
+        help="Choose your favorite visual expression style"
     )
 
-    # Canvas Size
-    canvas_size = st.selectbox(
+    # Canvas size
+    art_size = st.selectbox(
         "🖼️ Canvas Size",
         ["Portrait", "Landscape", "Square"],
         help="Choose your canvas orientation"
     )
 
-    # Subject Matter (what to draw)
+    # Subject / theme
     subject = st.text_input(
         "🏞️ Subject / Theme",
-        placeholder="e.g., waterfall scenery, trees, portrait of a cat",
-        help="Describe what kind of scene/art you want"
+        placeholder="e.g., waterfall scenery, portrait of a cat",
+        help="Describe what kind of art you want"
     )
 
     # Variations
     num_variations = st.slider(
         "🔄 Number of Variations",
         1, 4, 1,
-        help="How many different versions to generate"
+        help="How many image versions should be generated"
     )
 
     # Creativity
     creativity_level = st.slider(
         "✨ Creativity Level",
         1, 10, 7,
-        help="Higher = more imaginative output"
+        help="How imaginative the generation should be"
     )
 
-    generate = st.button("🎨 Generate Artwork", use_container_width=True)
+    # Generate button
+    generate = st.button("🎨 Generate Art", use_container_width=True)
 
+# --------------------
 # Title & Introduction
+# --------------------
 st.markdown("<h1 style='text-align: center;'>🎨 EmoToArt - Multi Agent Assistant </h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center;'>Where Emotions Become Masterpieces</h3>", unsafe_allow_html=True)
 
@@ -82,16 +91,18 @@ with selected_tab[0]:
     if not st.session_state.get('generating', False):
         st.markdown("""
         <div style='text-align: center; font-size:17px; padding: 1rem 3rem;'>
-        Express yourself through AI-generated paintings.<br>
-        Select your favorite colors, styles, and subjects to bring your imagination to life.
+        Express your imagination through AI-generated paintings.<br>
+        Select your favorite colors, styles, and subjects to bring your creativity to life.
         </div>
         """, unsafe_allow_html=True)
 
     if st.session_state.get('generating', False):
-        with st.spinner("✨ Crafting your masterpiece..."):
+        with st.spinner("✨ Crafting your artwork..."):
             try:
+                # Updated generate_art call
                 prompt, images = st.session_state.orchestrator.generate_art(
-                    color_palette, art_style, num_variations, creativity_level, canvas_size, subject
+                    color_palette, art_style, art_size, subject,
+                    num_variations, creativity_level
                 )
 
                 st.subheader("📝 Generated Prompt")
@@ -128,7 +139,7 @@ with selected_tab[1]:
                         mime="image/png"
                     )
     else:
-        st.info("No artworks yet. Go to Home and create your first one!")
+        st.info("No art generated yet. Go to Home and create your first masterpiece!")
 
 # --------------------
 # Feedback Tab
