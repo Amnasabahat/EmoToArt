@@ -19,29 +19,51 @@ if 'orchestrator' not in st.session_state:
 
 # Sidebar - Settings
 with st.sidebar:
-    st.header(" Settings")
+    st.header("🎨 Customize Your Artwork")
 
-    mood = st.selectbox("How are you feeling today?", [
-        "Calm", "Excited", "Anxious", "Happy", "Melancholic",
-        "Joyful", "Nostalgic", "Inspired", "Frustrated", "Relaxed", "Curious", "Hopeful"
-    ], help="Select your current emotional state to inspire the art")
+    # Palette / Color Tone
+    color_palette = st.selectbox(
+        "🎨 Color Palette",
+        ["Warm", "Cool", "Pastel", "Vibrant", "Monochrome"],
+        help="Choose the overall color tone for your art"
+    )
 
-    style = st.selectbox("Preferred Art Style", [
-        "Watercolor", "Anime", "Surrealism", "Digital Painting", "Abstract",
-        "Impressionism", "Cubism", "Pop Art", "Expressionism", "Minimalism", "Fantasy Art", "Concept Art"
-    ], help="Choose your favorite visual expression style")
+    # Art Style
+    art_style = st.selectbox(
+        "🖌️ Art Style",
+        ["Watercolor", "Digital Painting", "Anime", "Fantasy", "Abstract", "Impressionism", "Surrealism", "Minimalism"],
+        help="Pick the style of the artwork"
+    )
 
-    color_palette = st.selectbox("Choose a Color Palette", ["Warm", "Cool", "Monochrome", "Pastel", "Vibrant"], help="Defines the overall color tone")
+    # Canvas Size
+    canvas_size = st.selectbox(
+        "🖼️ Canvas Size",
+        ["Portrait", "Landscape", "Square"],
+        help="Choose your canvas orientation"
+    )
 
-    theme = st.multiselect("Select Theme or Subject Matter", ["Nature", "Urban", "Fantasy", "Portraits", "Abstract Forms", "Animals"], help="Select one or more subjects for your art")
+    # Subject Matter (what to draw)
+    subject = st.text_input(
+        "🏞️ Subject / Theme",
+        placeholder="e.g., waterfall scenery, trees, portrait of a cat",
+        help="Describe what kind of scene/art you want"
+    )
 
-    keywords = st.text_input("Enter keywords (optional)", placeholder="e.g., sunset, cityscape", help="Add any specific concepts you want to include")
+    # Variations
+    num_variations = st.slider(
+        "🔄 Number of Variations",
+        1, 4, 1,
+        help="How many different versions to generate"
+    )
 
-    art_size = st.selectbox("Select Art Size", ["Portrait", "Landscape", "Square"], help="Choose your canvas orientation")
+    # Creativity
+    creativity_level = st.slider(
+        "✨ Creativity Level",
+        1, 10, 7,
+        help="Higher = more imaginative output"
+    )
 
-    num_variations = st.slider("Number of variations", 1, 4, 1, help="How many image versions should be generated")
-    creativity_level = st.slider("Creativity level", 1, 10, 7, help="How imaginative the generation should be")
-    generate = st.button("🎨 Generate Art", use_container_width=True)
+    generate = st.button("🎨 Generate Artwork", use_container_width=True)
 
 # Title & Introduction
 st.markdown("<h1 style='text-align: center;'>🎨 EmoToArt - Multi Agent Assistant </h1>", unsafe_allow_html=True)
@@ -54,32 +76,29 @@ selected_tab = st.tabs(["🏠 Home", "🖼️ Gallery", "🗣️ Feedback"])
 # Home Tab
 # --------------------
 with selected_tab[0]:
-    # Update generation flag BEFORE any rendering
     if generate:
         st.session_state.generating = True
 
-    # Show description only if generation hasn't started yet
     if not st.session_state.get('generating', False):
         st.markdown("""
         <div style='text-align: center; font-size:17px; padding: 1rem 3rem;'>
-        Don't just imagine art—create it with your feelings!!!<br>
-        Turn your mood into stunning AI-generated artwork with just a few clicks! Whether you're feeling joyful, melancholic, or inspired,My EmoToArt Multi Agent transforms your emotions.
+        Express yourself through AI-generated paintings.<br>
+        Select your favorite colors, styles, and subjects to bring your imagination to life.
         </div>
         """, unsafe_allow_html=True)
 
-    # If generation is triggered
     if st.session_state.get('generating', False):
-        with st.spinner("✨ Crafting your artwork..."):
+        with st.spinner("✨ Crafting your masterpiece..."):
             try:
                 prompt, images = st.session_state.orchestrator.generate_art(
-                    mood, style, num_variations, creativity_level
+                    color_palette, art_style, num_variations, creativity_level, canvas_size, subject
                 )
 
                 st.subheader("📝 Generated Prompt")
                 st.markdown(f'<div class="generated-content">{prompt}</div>', unsafe_allow_html=True)
 
                 st.markdown("---")
-                st.markdown("Want to make it better?")
+                st.markdown("Want to refine it?")
                 if st.button("🔄 Refine this Prompt", use_container_width=True):
                     if st.session_state.orchestrator.history:
                         st.session_state.orchestrator.history.pop()
@@ -99,16 +118,17 @@ with selected_tab[1]:
                 for idx, img in enumerate(item['image']):
                     st.image(img, use_container_width=True)
                     st.caption(item['prompt'].splitlines()[0])
+
                     buf = BytesIO()
                     img.save(buf, format="PNG")
                     st.download_button(
-                        f"📥 Download {i+1}.{idx+1}",
+                        "📥 Download",
                         buf.getvalue(),
                         file_name=f"artistryai_art_{i+1}_{idx+1}.png",
                         mime="image/png"
                     )
     else:
-        st.info("No art generated yet. Go to the Home tab and generate your first masterpiece!")
+        st.info("No artworks yet. Go to Home and create your first one!")
 
 # --------------------
 # Feedback Tab
